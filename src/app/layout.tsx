@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageTransition } from "@/components/ui/PageTransition";
 import { CustomCursor } from "@/components/ui/CustomCursor";
+import { InitialLoadGate } from "@/components/ui/InitialLoadGate";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -39,12 +40,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${cormorant.variable} ${manrope.variable}`}>
       <body className="bg-ivory text-onyx antialiased">
-        <Header />
-        <PageTransition>
-          <main className="pt-24 md:pt-28">{children}</main>
-        </PageTransition>
-        <Footer />
-        <CustomCursor />
+        <InitialLoadGate>
+          <Header />
+          <PageTransition>
+            <main className="pt-24 md:pt-28">{children}</main>
+          </PageTransition>
+          <Footer />
+          <CustomCursor />
+        </InitialLoadGate>
       </body>
     </html>
   );
