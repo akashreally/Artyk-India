@@ -1,31 +1,41 @@
-import { ContactMap } from "@/components/sections/ContactMap";
+import EnquiryForm from "@/components/sections/EnquiryForm";
+
+export const metadata = { title: "Contact" };
 
 export default function ContactPage() {
   return (
-    <section className="bg-onyx px-6 pb-14 pt-8 text-ivory md:pb-20 md:pt-14">
-      <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-2 md:gap-10">
-        <ContactMap />
-        <div>
-          <h1 className="font-display text-4xl italic leading-none md:text-5xl">Visit & Enquire</h1>
-          <form className="mt-8 space-y-4">
-            <input className="w-full border border-cognac bg-transparent px-4 py-3 text-sm text-ivory placeholder:text-greige/80" placeholder="Name" />
-            <input className="w-full border border-cognac bg-transparent px-4 py-3 text-sm text-ivory placeholder:text-greige/80" placeholder="Email" type="email" />
-            <input className="w-full border border-cognac bg-transparent px-4 py-3 text-sm text-ivory placeholder:text-greige/80" placeholder="Phone" />
-            <select className="w-full border border-cognac bg-onyx px-4 py-3 text-sm text-ivory">
-              <option>Furniture</option>
-              <option>Design Consultation</option>
-              <option>Corporate Project</option>
-              <option>Press</option>
-            </select>
-            <textarea className="h-32 w-full border border-cognac bg-transparent px-4 py-3 text-sm text-ivory placeholder:text-greige/80" placeholder="Message" />
-            <button className="w-full border border-brass bg-brass px-4 py-3 text-xs uppercase tracking-[0.2em] text-onyx">Submit</button>
-          </form>
-          <div className="mt-8 space-y-2 text-sm text-mist">
-            <p>Plot No. 839/A, Road No. 44, Jubilee Hills, Hyderabad</p>
-            <p>+91 90000 00000</p>
-            <p>hello@artykindia.com</p>
-            <p>@artykindia</p>
+    <section className="px-6 pt-36 pb-32 md:px-16 md:pt-44 md:pb-44">
+      <div className="mx-auto grid max-w-6xl gap-14 md:grid-cols-12">
+        <div className="md:col-span-5">
+          <p className="font-sans text-[11px] uppercase tracking-[0.3em] text-forest">By appointment</p>
+          <h1 className="mt-4 font-display text-[clamp(2.6rem,6vw,4.5rem)] font-light leading-[1.02] text-onyx">
+            Visit ARTYK.
+          </h1>
+          <p className="mt-6 max-w-sm leading-relaxed text-cognac">
+            We receive a small number of guests each week. Tell us about your space, and we will
+            prepare the gallery for your visit.
+          </p>
+          <div className="mt-10 space-y-4 text-sm text-cognac">
+            <p>
+              Plot No. 839/A, Road No. 44,
+              <br />
+              Jubilee Hills, Hyderabad 500033
+            </p>
+            <p>
+              <a href="mailto:hello@artykindia.com" className="underline-sweep">hello@artykindia.com</a>
+            </p>
+            <p>
+              <a href="tel:+919866022070" className="underline-sweep">+91 98660 22070</a>
+            </p>
+            <p>
+              <a href="https://instagram.com/artykindia" target="_blank" rel="noopener noreferrer" className="underline-sweep">
+                @artykindia
+              </a>
+            </p>
           </div>
+        </div>
+        <div className="md:col-span-7">
+          <EnquiryForm />
         </div>
       </div>
     </section>

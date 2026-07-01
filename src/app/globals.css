@@ -2,13 +2,15 @@
 @config "../../tailwind.config.ts";
 
 :root {
-  --bg: #e9ddd0;
-  --paper: #f6efe7;
-  --ink: #1c140f;
-  --ink-soft: #4d3a2f;
-  --accent: #9d6744;
-  --accent-soft: #c18f70;
-  --line: rgba(58, 43, 34, 0.16);
+  /* ARTYK — neutral base, forest green as the single accent (approved direction) */
+  --bg: #e6e3da;          /* stone canvas */
+  --paper: #f2efe7;
+  --ink: #1f2420;         /* deep forest-ink */
+  --ink-soft: #5b5f54;
+  --accent: #2e4033;      /* forest green — the only accent */
+  --accent-soft: #7e9a6e; /* sage, for use on dark */
+  --corten: #a85838;      /* signature material accent (exterior wall) */
+  --line: rgba(47, 64, 52, 0.18);
 }
 
 html,
@@ -34,13 +36,12 @@ body::-webkit-scrollbar,
 }
 
 body {
-  font-family: var(--font-sans), sans-serif;
+  font-family: var(--font-sans), Georgia, serif;
   line-height: 1.7;
   letter-spacing: 0.01em;
   background-image:
-    radial-gradient(circle at 15% 20%, rgba(190, 146, 119, 0.22), transparent 34%),
-    radial-gradient(circle at 88% 8%, rgba(97, 71, 56, 0.14), transparent 30%),
-    linear-gradient(180deg, #efe1d5 0%, #e9ddd0 42%, #efe4d9 100%);
+    radial-gradient(circle at 50% -8%, rgba(126, 154, 110, 0.1), transparent 46%),
+    linear-gradient(180deg, #ece9e0 0%, #e6e3da 46%, #edeae1 100%);
 }
 
 .hero-display {
@@ -144,4 +145,18 @@ body.custom-cursor-enabled select,
 body.custom-cursor-enabled label,
 body.custom-cursor-enabled [role="button"] {
   cursor: none !important;
+}
+
+/* Respect users who prefer reduced motion. Covers CSS animations/transitions
+   (.reveal-in, .scroll-track, .underline-sweep, hover scales); framer-motion
+   components additionally guard via useReducedMotion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

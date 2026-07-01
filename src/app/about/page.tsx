@@ -1,61 +1,91 @@
- "use client";
-
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import { sampleImages } from "@/lib/sampleImages";
+import Reveal from "@/components/ui/Reveal";
+import InviteCTA from "@/components/sections/InviteCTA";
 
-function Counter({ target, label }: { target: number; label: string }) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const inView = useInView(ref, { once: true });
-  const [value, setValue] = useState(0);
+export const metadata = { title: "About Us" };
 
-  useEffect(() => {
-    if (!inView) return;
-    const id = setInterval(() => {
-      setValue((current) => {
-        const next = current + Math.ceil(target / 40);
-        if (next >= target) {
-          clearInterval(id);
-          return target;
-        }
-        return next;
-      });
-    }, 30);
-    return () => clearInterval(id);
-  }, [inView, target]);
-
-  return (
-    <div ref={ref}>
-      <p className="font-display text-4xl italic text-brass md:text-5xl">{value}{label.includes("sq.ft.") ? " sq.ft." : label.includes("+") ? "+" : ""}</p>
-      <p className="mt-2 text-xs uppercase tracking-[0.2em] text-greige">{label.replace(" sq.ft.", "").replace("+", "")}</p>
-    </div>
-  );
-}
+const stats = [
+  { n: "25,000", label: "Square feet" },
+  { n: "3", label: "Floors" },
+  { n: "7", label: "Partner houses" },
+];
 
 export default function AboutPage() {
   return (
-    <div className="bg-ivory pb-14 pt-8 md:pb-20 md:pt-12">
-      <section className="mx-auto grid max-w-7xl items-center gap-8 px-6 py-10 md:grid-cols-2 md:gap-10 md:py-16">
-        <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-brass">About Artyk</p>
-          <h1 className="font-display text-4xl italic leading-none md:text-5xl">Avinash & Prachi Agarwal</h1>
-          <p className="mt-5 text-base font-light text-cognac">Artyk was founded to redefine how India experiences luxury design through a deeply curated and tactile environment that balances European craft with Indian sensibilities.</p>
-          <p className="mt-7 font-display text-3xl italic leading-tight text-brass md:text-4xl">We want to redefine the way people engage with design.</p>
+    <>
+      {/* INTRO */}
+      <section className="px-6 pt-36 pb-16 md:px-16 md:pt-44 md:pb-24">
+        <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-12">
+          <div className="md:col-span-3">
+            <p className="font-sans text-[11px] uppercase tracking-[0.32em] text-forest">About Us</p>
+            <div className="mt-6 h-px w-16 bg-corten" />
+          </div>
+          <Reveal className="md:col-span-9">
+            <h1 className="font-display text-[clamp(1.9rem,4.4vw,3.7rem)] font-light leading-[1.12] tracking-[-0.01em] text-onyx">
+              ARTYK was founded to redefine how India experiences luxury design — a deeply curated,
+              tactile gallery where European craft meets an Indian sensibility.
+            </h1>
+          </Reveal>
         </div>
-        <div className="relative h-[340px] overflow-hidden rounded-[1rem] md:h-[500px]"><Image src={sampleImages.hero} alt="Artyk space" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" /></div>
       </section>
-      <section className="mx-auto grid max-w-7xl gap-4 px-6 md:grid-cols-3 md:gap-6">
-        <div className="relative h-64 overflow-hidden rounded-[1rem] md:h-72"><Image src={sampleImages.founder} alt="Artyk founder portrait" fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" /></div>
-        <div className="relative h-64 overflow-hidden rounded-[1rem] md:h-72"><Image src={sampleImages.brands} alt="Artyk interior 2" fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" /></div>
-        <div className="relative h-64 overflow-hidden rounded-[1rem] md:h-72"><Image src={sampleImages.editorial} alt="Artyk interior 3" fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" /></div>
+
+      {/* FOUNDERS */}
+      <section className="px-6 pb-24 md:px-16 md:pb-32">
+        <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-12 md:gap-16">
+          <Reveal className="md:col-span-6">
+            <div className="relative aspect-[4/5] overflow-hidden">
+              <Image
+                src="/images/founder/founder-2.jpg"
+                alt="Avinash & Prachi Agarwal, founders of ARTYK"
+                fill
+                sizes="(max-width:768px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </div>
+          </Reveal>
+          <div className="md:col-span-6">
+            <p className="font-sans text-[11px] uppercase tracking-[0.3em] text-forest">The Founders</p>
+            <h2 className="mt-4 font-display text-[clamp(1.9rem,4vw,3.2rem)] font-light text-onyx">
+              Avinash &amp; Prachi Agarwal
+            </h2>
+            <p className="mt-7 font-display text-[clamp(1.4rem,2.6vw,2rem)] font-light italic leading-snug text-cognac">
+              &ldquo;We want to redefine the way people engage with design.&rdquo;
+            </p>
+            <p className="mt-7 max-w-md leading-relaxed text-cognac">
+              [Placeholder] A few lines on Avinash and Prachi — their story, their eye, and the
+              conviction that led them to build ARTYK as a gallery rather than a showroom. Final copy
+              to follow.
+            </p>
+          </div>
+        </div>
+
+        <div className="mx-auto mt-10 grid max-w-7xl gap-4 sm:grid-cols-2 md:mt-16 md:gap-6">
+          <Reveal>
+            <div className="relative aspect-[3/4] overflow-hidden sm:aspect-[4/3]">
+              <Image src="/images/founder/founder-duo.jpg" alt="The founders of ARTYK" fill sizes="(max-width:640px) 100vw, 50vw" className="object-cover" />
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="relative aspect-[3/4] overflow-hidden sm:aspect-[4/3]">
+              <Image src="/images/founder/founder-1.jpg" alt="The founders of ARTYK" fill sizes="(max-width:640px) 100vw, 50vw" className="object-cover" />
+            </div>
+          </Reveal>
+        </div>
       </section>
-      <motion.section initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="mx-auto mt-10 grid max-w-7xl gap-6 bg-onyx px-6 py-10 md:mt-14 md:grid-cols-3 md:gap-8 md:px-8 md:py-12">
-        <Counter target={25000} label="sq.ft." />
-        <Counter target={3} label="Floors" />
-        <Counter target={7} label="Global Brands+" />
-      </motion.section>
-    </div>
+
+      {/* STATS */}
+      <section className="border-y border-cognac/20 bg-oat/50 px-6 py-16 md:px-16">
+        <div className="mx-auto grid max-w-7xl gap-10 text-center md:grid-cols-3">
+          {stats.map((s) => (
+            <div key={s.label}>
+              <p className="font-display text-[clamp(2.6rem,5vw,4.2rem)] font-light leading-none text-onyx">{s.n}</p>
+              <p className="mt-3 font-sans text-[11px] uppercase tracking-[0.24em] text-cognac">{s.label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <InviteCTA />
+    </>
   );
 }

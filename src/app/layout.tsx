@@ -1,23 +1,24 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import { Fraunces, Newsreader } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { PageTransition } from "@/components/ui/PageTransition";
-import { CustomCursor } from "@/components/ui/CustomCursor";
-import { InitialLoadGate } from "@/components/ui/InitialLoadGate";
+import LayoutClient from "./layout-client";
 
-const cormorant = Cormorant_Garamond({
+// Approved type direction (from "The Quiet Atelier"): serif-led, editorial.
+// These are the FREE stand-ins. To ship the licensed Editorial New + Tiempos
+// Text later, replace these two with next/font/local and keep the same
+// variable names (--font-display / --font-sans) — nothing else needs to change.
+const fraunces = Fraunces({
   subsets: ["latin"],
   style: ["normal", "italic"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500"],
   variable: "--font-display",
   display: "swap",
 });
 
-const manrope = Manrope({
+const newsreader = Newsreader({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
+  weight: ["300", "400", "500"],
   variable: "--font-sans",
   display: "swap",
 });
@@ -38,16 +39,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${manrope.variable}`}>
-      <body className="bg-ivory text-onyx antialiased">
-        <InitialLoadGate>
-          <Header />
-          <PageTransition>
-            <main className="pt-24 md:pt-28">{children}</main>
-          </PageTransition>
-          <Footer />
-          <CustomCursor />
-        </InitialLoadGate>
+    <html lang="en" className={`${fraunces.variable} ${newsreader.variable}`}>
+      <body className="bg-stone text-onyx antialiased">
+        <LayoutClient>{children}</LayoutClient>
       </body>
     </html>
   );

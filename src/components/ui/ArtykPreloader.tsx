@@ -45,7 +45,7 @@ export function ArtykPreloader({ onComplete }: ArtykPreloaderProps) {
       await wordmark.start("visible");
 
       // Phase 3 — hold so the fully-revealed logo can be appreciated.
-      await wait(600);
+      await wait(900);
 
       // Phase 4 — fade the preloader away to reveal the homepage beneath.
       await shell.start("hidden");
@@ -69,12 +69,12 @@ export function ArtykPreloader({ onComplete }: ArtykPreloaderProps) {
         hidden: {
           opacity: 0,
           transition: {
-            duration: reducedMotion ? 0.25 : 0.4,
+            duration: reducedMotion ? 0.3 : 0.6,
             ease: [0.22, 1, 0.36, 1],
           },
         },
       }}
-      className="pointer-events-none fixed inset-0 z-[120] flex items-center justify-center bg-[#F7F5F2]"
+      className="pointer-events-none fixed inset-0 z-[120] flex items-center justify-center bg-[#ece9e0]"
       aria-hidden="true"
     >
       <div className="relative flex w-full items-center justify-center px-6">
@@ -97,7 +97,7 @@ export function ArtykPreloader({ onComplete }: ArtykPreloaderProps) {
                 visible: {
                   clipPath: "inset(0 0% 0 0)",
                   transition: {
-                    duration: reducedMotion ? 0.2 : 2.2,
+                    duration: reducedMotion ? 0.3 : 3.2,
                     ease: [0.76, 0, 0.24, 1],
                   },
                 },
@@ -131,8 +131,8 @@ export function ArtykPreloader({ onComplete }: ArtykPreloaderProps) {
                   opacity: 1,
                   y: 0,
                   transition: {
-                    delay: reducedMotion ? 0 : 0.85,
-                    duration: reducedMotion ? 0.2 : 1.25,
+                    delay: reducedMotion ? 0 : 1.0,
+                    duration: reducedMotion ? 0.3 : 1.6,
                     ease: [0.22, 1, 0.36, 1],
                   },
                 },

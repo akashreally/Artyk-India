@@ -1,3 +1,4 @@
+// ⚠️ DUPLICATE MOTION UTILITIES — overlaps with src/lib/motion/variants.ts. Do not merge yet; see Phase 0 report.
 import type { Variants, Transition } from "framer-motion";
 
 /* ─── Shared easing curves ─── */

@@ -1,187 +1,216 @@
-import Link from "next/link";
 import Image from "next/image";
-import { HomeScrollExperience } from "@/components/sections/HomeScrollExperience";
-import { HeroIntroMedia } from "@/components/sections/HeroIntroMedia";
-import { getHomepageData } from "@/lib/sanity";
-import { urlForImage } from "@/lib/sanity/image";
-import { sampleImages } from "@/lib/sampleImages";
+import Link from "next/link";
+import Reveal from "@/components/ui/Reveal";
+import SignatureLine from "@/components/ui/SignatureLine";
+import BrandsTeaser from "@/components/sections/BrandsTeaser";
 
-export default async function HomePage() {
-  const homepage = await getHomepageData();
-  const collections = homepage?.featuredCollections ?? [];
-  const brands = homepage?.featuredBrands ?? [];
-  const editorialPosts = homepage?.editorialPosts ?? [];
-  const heroImage = homepage?.heroImage
-    ? urlForImage(homepage.heroImage).width(1920).height(1080).url()
-    : sampleImages.hero;
+const values = [
+  { title: "Design with Purpose", description: "We believe good design should be both beautiful and meaningful." },
+  { title: "Craftsmanship Matters", description: "We value authenticity, quality, and the skill behind every detail." },
+  { title: "Timeless Over Temporary", description: "We champion enduring design that transcends trends." },
+  { title: "Relationships First", description: "The best projects are built on trust, collaboration, and shared vision." },
+];
 
-  const visualCollections = collections.slice(0, 3).map((collection, index) => ({
-    id: collection._id,
-    title: collection.title,
-    category: collection.category,
-    href: `/collections/${collection.slug.current}`,
-    image: collection.coverImage
-      ? urlForImage(collection.coverImage).width(1200).height(1400).url()
-      : [sampleImages.collectionLounge, sampleImages.collectionAccent, sampleImages.collectionStudio][index] ?? sampleImages.collectionLiving,
-  }));
+const services = [
+  {
+    title: "Imagine",
+    line: "Every exceptional space begins with a vision.",
+    items: ["Interior Design Consultation", "Furniture Planning", "Space Layout", "3D Visualisation", "Material & Finish Selection"],
+    image: "/images/services/service-consulting.jpg",
+  },
+  {
+    title: "Curate",
+    line: "Selecting furniture, lighting and objects with timeless elegance.",
+    items: ["Luxury Furniture", "Lighting", "Art & Accessories"],
+    image: "/images/services/service-furniture.jpg",
+  },
+  {
+    title: "Craft",
+    line: "Creating bespoke solutions tailored to each project.",
+    items: ["Bespoke Kitchens", "Wardrobes & Storage", "Custom Furniture", "Made-to-Order Pieces"],
+    image: "/images/showroom/kitchen.jpg",
+  },
+  {
+    title: "Realise",
+    line: "Delivering every detail with precision.",
+    items: ["Product Specification", "Technical Coordination", "Installation", "Site Coordination"],
+    image: "/images/showroom/gallery.jpg",
+  },
+];
 
-  const visualEditorials = editorialPosts.slice(0, 3).map((post) => ({
-    id: post._id,
-    title: post.title,
-    excerpt: post.excerpt ?? "Discover curated ideas and design perspectives from the Artyk journal.",
-    image: post.coverImage ? urlForImage(post.coverImage).width(1000).height(700).url() : sampleImages.editorial,
-    date: new Date(post.publishedAt).toLocaleDateString(),
-  }));
-
-  while (visualCollections.length < 3) {
-    const idx = visualCollections.length;
-    visualCollections.push({
-      id: `fallback-collection-${idx}`,
-      title: ["Living Edit", "Dining Edit", "Bedroom Edit"][idx] ?? "Artyk Edit",
-      category: "Signature Selection",
-      href: "/collections",
-      image: [sampleImages.collectionLounge, sampleImages.collectionAccent, sampleImages.collectionStudio][idx] ?? sampleImages.collectionLiving,
-    });
-  }
-
-  while (visualEditorials.length < 3) {
-    const idx = visualEditorials.length;
-    visualEditorials.push({
-      id: `fallback-editorial-${idx}`,
-      title: ["Crafted Silence", "Luxury With Restraint", "Future Heritage"][idx] ?? "Artyk Journal",
-      excerpt: "Discover curated ideas and design perspectives from the Artyk journal.",
-      image: [sampleImages.journalA, sampleImages.journalB, sampleImages.journalC][idx] ?? sampleImages.editorial,
-      date: new Date().toLocaleDateString(),
-    });
-  }
-
+export default function HomePage() {
   return (
     <>
-      <section className="grain relative mx-4 min-h-[82vh] overflow-hidden rounded-[2.2rem] bg-[#201813] text-[#f5ede5] md:mx-8 md:min-h-[88vh]">
-        <HeroIntroMedia fallbackPoster={heroImage} />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-black/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/0" />
-
-        <div className="relative z-10 flex min-h-[82vh] flex-col justify-end px-6 pb-10 pt-24 md:min-h-[88vh] md:px-12 md:pb-12">
-          <p className="reveal-in mb-5 text-[11px] uppercase tracking-[0.24em] text-[#d7ad8d]">Hyderabad · 25,000 sq.ft. design destination</p>
-          <h1 className="hero-display max-w-5xl text-[#f8efe7]">Where Design Feels Cinematic.</h1>
-          <div className="reveal-in mt-8 flex flex-wrap gap-3" style={{ animationDelay: "0.2s" }}>
-            <Link href="/collections" className="rounded-full bg-[#f1e2d4] px-7 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#2f2219] transition hover:bg-white">
-              Explore Collections
-            </Link>
-            <Link href="/contact" className="rounded-full border border-white/40 px-7 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-white/10">
-              Book A Visit
-            </Link>
-          </div>
-        </div>
+      {/* ───────────────────────── HERO (kept) ───────────────────────── */}
+      <section className="relative h-[100svh] min-h-[600px] w-full overflow-hidden">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="/images/featured/entrance.jpg"
+          className="absolute inset-0 h-full w-full object-cover"
+        >
+          {/* TODO: swap for a short, compressed /videos/hero-loop.mp4 */}
+          <source src="/videos/artyk-intro-desktop.mp4" type="video/mp4" />
+        </video>
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-onyx/40" />
       </section>
 
-      <section className="px-6 py-10 md:px-8">
-        <div className="glass-panel mx-auto grid max-w-7xl gap-5 rounded-[1.6rem] p-5 md:grid-cols-3 md:p-7">
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.24em] text-[#8d6148]">Curated Brands</p>
-            <p className="mt-2 text-4xl font-semibold leading-none md:text-5xl">{String(brands.length || 7).padStart(2, "0")}</p>
-          </div>
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.24em] text-[#8d6148]">Showroom Surface</p>
-            <p className="mt-2 text-4xl font-semibold leading-none md:text-5xl">25k</p>
-          </div>
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.24em] text-[#8d6148]">Design Partners</p>
-            <p className="mt-2 text-4xl font-semibold leading-none md:text-5xl">Global</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="overflow-hidden py-8">
-        <div className="scroll-track flex w-[200%] gap-10 text-[#523d31] hover:[animation-play-state:paused]">
-          {[...brands, ...brands].map((brand, idx) => (
-            <p key={`${brand._id}-${idx}`} className="whitespace-nowrap font-display text-3xl italic opacity-85 transition hover:opacity-100 md:text-6xl">
-              {brand.name}
+      {/* ───────────────── Editorial intro ───────────────── */}
+      <section className="px-6 py-28 md:px-16 md:py-44">
+        <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-12">
+          <Reveal className="md:col-span-9">
+            <h2 className="font-display text-[clamp(2.1rem,4.8vw,4.1rem)] font-light leading-[1.12] tracking-[-0.01em] text-onyx">
+              Artyk — Where{" "}
+              <span className="not-italic text-corten">Art</span>{" "}
+              <span className="italic">Meets Living</span>, &{" "}
+              <span className="not-italic text-corten">Design</span>{" "}
+              <span className="italic">Meets Distinction</span>.
+            </h2>
+            <p className="mt-8 max-w-2xl text-base leading-relaxed text-cognac md:text-lg">
+              Artyk brings you sprawling galleries of designer furniture by top-tier international
+              brands. Walk into an immersive experience of living spaces that reflect fine aesthetics
+              and sophistication. Interact face-to-face with furniture pieces and notice the symbiosis
+              of craftsmanship and design.
             </p>
-          ))}
+
+            {/* signature pull-quote */}
+            <Reveal delay={0.15}>
+              <div className="mt-8 h-px w-12 bg-corten" />
+              <SignatureLine />
+            </Reveal>
+          </Reveal>
         </div>
       </section>
 
-      <section className="px-6 py-16 md:px-8">
-        <div className="mx-auto grid max-w-7xl items-center gap-8 md:grid-cols-2 md:gap-12">
-          <div className="relative min-h-[420px] overflow-hidden rounded-[1.8rem]">
-            <Image src={sampleImages.journalA} alt="Editorial" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
-          </div>
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.24em] text-[#8d6148]">The Artyk Lens</p>
-            <h2 className="section-title mt-4">Material. Light. Emotion.</h2>
-            <p className="mt-5 max-w-xl text-[#4d3a2f]">Each setting is composed like a cinematic frame. We present furniture as an experience of proportion, tactility, and calm confidence.</p>
-            <Link href="/editorial" className="mt-8 inline-flex rounded-full border border-[#4d3a2f]/30 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#2a1f18] transition hover:bg-[#2a1f18] hover:text-white">
-              Read Editorial Stories
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <HomeScrollExperience collections={visualCollections} editorials={visualEditorials} />
-
-      <section className="subtle-grid px-6 py-16 md:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-9 flex items-end justify-between gap-6">
-            <h2 className="section-title">Featured Collections</h2>
-            <Link href="/collections" className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#6f4a35]">
-              View All
-            </Link>
-          </div>
-          <div className="grid gap-5 md:grid-cols-3">
-            {collections.slice(0, 3).map((collection, index) => (
-              <article key={collection._id} className={index === 1 ? "md:-mt-8" : ""}>
-                <Link href={`/collections/${collection.slug.current}`} className="group block">
-                  <div className="relative h-[390px] overflow-hidden rounded-[1.4rem]">
-                    <Image
-                      src={collection.coverImage ? urlForImage(collection.coverImage).width(880).height(1080).url() : sampleImages.collectionLiving}
-                      alt={collection.title}
-                      fill
-                      loading="lazy"
-                      className="object-cover transition duration-700 group-hover:scale-105"
-                    />
-                  </div>
-                  <p className="mt-4 text-[11px] uppercase tracking-[0.2em] text-[#8d6148]">{collection.category}</p>
-                  <p className="mt-1 font-display text-4xl italic leading-none text-[#20160f]">{collection.title}</p>
-                </Link>
-              </article>
+      {/* ───────────────── Values (manifesto) ───────────────── */}
+      <section className="px-6 py-28 md:px-16 md:py-40">
+        <div className="mx-auto max-w-5xl">
+          <Reveal>
+            <h2 className="font-display text-[clamp(2rem,4.2vw,3.4rem)] font-light leading-[1.1] tracking-[-0.01em] text-onyx">
+              What we believe.
+            </h2>
+          </Reveal>
+          <div className="mt-12 border-b border-cognac/25 md:mt-16">
+            {values.map((v, i) => (
+              <Reveal key={v.title} delay={i * 0.08}>
+                <div className="grid gap-3 border-t border-cognac/25 py-8 md:grid-cols-12 md:gap-8 md:py-10">
+                  <h3 className="font-display text-[clamp(1.5rem,2.8vw,2.2rem)] font-light leading-tight text-onyx md:col-span-5">
+                    {v.title}
+                  </h3>
+                  <p className="max-w-xl leading-relaxed text-cognac md:col-span-7">{v.description}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="px-6 py-16 md:px-8">
-        <div className="mx-auto max-w-7xl md:grid md:grid-cols-2 md:gap-8">
-          {editorialPosts.map((post) => (
-            <article key={post._id} className="mb-10 rounded-[1.2rem] bg-[#f6efe7]/70 p-4 md:p-6">
-              <div className="relative mb-5 h-80 overflow-hidden rounded-[1rem]">
-                <Image
-                  src={post.coverImage ? urlForImage(post.coverImage).width(900).height(700).url() : sampleImages.editorial}
-                  alt={post.title}
-                  fill
-                  loading="lazy"
-                  className="object-cover"
-                />
-              </div>
-              <p className="text-[11px] uppercase tracking-[0.2em] text-[#8d6148]">{new Date(post.publishedAt).toLocaleDateString()}</p>
-              <h3 className="mt-2 font-display text-4xl italic leading-none text-[#20160f]">{post.title}</h3>
-              <p className="mt-3 max-w-xl text-sm text-[#4d3a2f]">{post.excerpt}</p>
-            </article>
-          ))}
+      {/* ───────────────── Services (from vision to installation) ───────────────── */}
+      <section className="px-6 py-28 md:px-16 md:py-40">
+        <div className="mx-auto max-w-7xl">
+          <Reveal>
+            <h2 className="max-w-3xl font-display text-[clamp(2rem,4.2vw,3.4rem)] font-light leading-[1.1] tracking-[-0.01em] text-onyx">
+              From first vision to final detail.
+            </h2>
+          </Reveal>
+          <div className="mt-16 flex flex-col gap-16 md:mt-24 md:gap-28">
+            {services.map((s, i) => (
+              <Reveal key={s.title} delay={0.08}>
+                <div className="grid items-center gap-8 md:grid-cols-12 md:gap-14">
+                  <div className={`relative aspect-[4/3] overflow-hidden md:col-span-6 ${i % 2 === 1 ? "md:order-2" : ""}`}>
+                    <Image src={s.image} alt={s.title} fill sizes="(max-width:768px) 100vw, 50vw" className="object-cover" />
+                  </div>
+                  <div className={`md:col-span-6 ${i % 2 === 1 ? "md:order-1" : ""}`}>
+                    <h3 className="font-display text-[clamp(1.8rem,3.2vw,2.6rem)] font-light text-onyx">{s.title}</h3>
+                    <p className="mt-4 max-w-md font-display text-[clamp(1.1rem,1.9vw,1.45rem)] font-light italic leading-snug text-cognac">
+                      {s.line}
+                    </p>
+                    <ul className="mt-7 space-y-0">
+                      {s.items.map((it) => (
+                        <li key={it} className="border-t border-cognac/15 py-2.5 font-sans text-[13px] uppercase tracking-[0.14em] text-cognac">
+                          {it}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="mx-4 mb-12 rounded-[2rem] bg-[#241912] px-6 py-20 text-center text-[#f3e6d9] md:mx-8">
-        <h2 className="section-title text-[#f6ece2]">Come and feel the scale in person.</h2>
-        <p className="mx-auto mt-5 max-w-2xl text-[#cda88b]">Plot No. 839/A, Road No. 44, Jubilee Hills, Hyderabad</p>
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <Link href="/contact" className="rounded-full bg-[#f3e4d6] px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#20160f]">
-            Book a Visit
+      {/* ───────────────── Brands (teaser) ───────────────── */}
+      <section className="px-6 py-28 md:px-16 md:py-40">
+        <div className="mx-auto max-w-7xl">
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <Reveal>
+              <h2 className="font-display text-[clamp(2rem,4.2vw,3.4rem)] font-light leading-[1.1] tracking-[-0.01em] text-onyx">
+                Brands we curate.
+              </h2>
+            </Reveal>
+            <Link href="/brands" className="underline-sweep font-sans text-[11px] uppercase tracking-[0.24em] text-forest">
+              View all brands
+            </Link>
+          </div>
+          <div className="mt-12 md:mt-16">
+            <BrandsTeaser />
+          </div>
+        </div>
+      </section>
+
+      {/* ───────────────── Showroom (asymmetric mosaic) ───────────────── */}
+      <section className="px-6 py-28 md:px-16 md:py-40">
+        <div className="mx-auto max-w-7xl">
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <h2 className="max-w-2xl font-display text-[clamp(2rem,4.2vw,3.6rem)] font-light leading-[1.08] tracking-[-0.01em] text-onyx">
+              Twenty-five thousand square feet, composed like a gallery.
+            </h2>
+          </div>
+
+          <div className="mt-14 grid gap-4 md:grid-cols-12 md:gap-6">
+            <Reveal className="md:col-span-7">
+              <div className="group relative aspect-[4/5] overflow-hidden">
+                <Image src="/images/showroom/gallery.jpg" alt="ARTYK gallery floor" fill sizes="(max-width:768px) 100vw, 58vw" className="object-cover transition duration-[1.2s] ease-out group-hover:scale-105" />
+              </div>
+            </Reveal>
+            <div className="grid gap-4 md:col-span-5 md:gap-6">
+              <Reveal delay={0.1}>
+                <div className="group relative aspect-[4/3] overflow-hidden">
+                  <Image src="/images/showroom/living-2.jpg" alt="ARTYK living composition" fill sizes="(max-width:768px) 100vw, 42vw" className="object-cover transition duration-[1.2s] ease-out group-hover:scale-105" />
+                </div>
+              </Reveal>
+              <Reveal delay={0.2}>
+                <div className="group relative aspect-[4/3] overflow-hidden">
+                  <Image src="/images/showroom/dining.jpg" alt="ARTYK dining composition" fill sizes="(max-width:768px) 100vw, 42vw" className="object-cover transition duration-[1.2s] ease-out group-hover:scale-105" />
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ───────────────── CTA (invitation) ───────────────── */}
+      <section className="relative h-[72vh] min-h-[480px] w-full overflow-hidden">
+        <Image src="/images/featured/entrance-2.jpg" alt="The entrance to ARTYK" fill sizes="100vw" className="object-cover" />
+        <div className="absolute inset-0 bg-onyx/60" />
+        <div className="relative z-10 mx-auto flex h-full max-w-3xl flex-col items-center justify-center px-6 text-center">
+          <p className="font-sans text-[11px] uppercase tracking-[0.32em] text-ivory/75">By appointment</p>
+          <h2 className="mt-6 font-display text-[clamp(2.2rem,5.5vw,4.5rem)] font-light leading-[1.05] text-ivory">
+            An invitation, beyond the threshold.
+          </h2>
+          <p className="mt-5 max-w-xl leading-relaxed text-ivory/80">
+            We receive a small number of guests each week. Tell us about your space, and we will
+            prepare the gallery for your visit.
+          </p>
+          <Link
+            href="/contact"
+            className="mt-9 rounded-full bg-ivory px-9 py-3.5 font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-onyx transition hover:bg-forest hover:text-ivory"
+          >
+            Request a Visit
           </Link>
-          <a href="https://maps.google.com" className="rounded-full border border-[#cda88b]/70 px-8 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#cda88b]">
-            Get Directions
-          </a>
         </div>
       </section>
     </>

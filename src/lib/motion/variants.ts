@@ -1,3 +1,4 @@
+// ⚠️ DUPLICATE MOTION UTILITIES — overlaps with src/lib/motion.ts. Do not merge yet; see Phase 0 report.
 import type { Variants } from "framer-motion";
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
